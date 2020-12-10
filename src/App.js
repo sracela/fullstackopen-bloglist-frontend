@@ -4,14 +4,11 @@ import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
 import "./App.css";
+import BlogForm from "./components/BlogForm";
+import Togglable from "./components/Togglable"
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [newBlog, setNewBlog] = useState({
-    title: "",
-    author: "",
-    url: ""
-  });
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -45,18 +42,11 @@ const App = () => {
     setUser(null);
   };
 
-  const addBlog = async (event) => {
-    event.preventDefault();
-    const blogObject = { ...newBlog };
+  const addBlog = async (blogObject) => {
 
     try {
       const returnedBlog = await blogService.create(blogObject);
       setBlogs(blogs.concat(returnedBlog));
-      setNewBlog({
-        title: "",
-        author: "",
-        url: ""
-      });
       setErrorMessage("New Blog Added");
       setIsError(false);
     } catch (exception) {
@@ -93,48 +83,8 @@ const App = () => {
     </form>
   );
 
-  const handleTitleChange = ({ target }) => {
-    // console.log(newBlog)
-    setNewBlog({ ...newBlog, title: target.value });
-  };
 
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
-      <div>
-        title:
-        <input
-          type="text"
-          value={newBlog.title}
-          name="title"
-          onChange={handleTitleChange}
-        />
-      </div>
-      <div>
-        author:
-        <input
-          type="text"
-          value={newBlog.author}
-          name="author"
-          onChange={({ target }) =>
-            setNewBlog({ ...newBlog, author: target.value })
-          }
-        />
-      </div>
-      <div>
-        url:
-        <input
-          type="text"
-          value={newBlog.url}
-          name="url"
-          onChange={({ target }) =>
-            setNewBlog({ ...newBlog, url: target.value })
-          }
-        />
-      </div>
-      <button type="submit">save</button>
-    </form>
-  );
-
+  
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
@@ -161,9 +111,14 @@ const App = () => {
         <div>
           <p>{user.name} logged-in</p>
           <button onClick={onLogout}>LOGOUT</button>
-          <h2>Create new</h2>
+          {/* <h2>Create new</h2>
           {blogForm()}
-          <br />
+          <br /> */}
+          <Togglable buttonLabel='new blog'>
+        <BlogForm 
+          createBlog={addBlog}/>
+        </Togglable>
+
           <h2>Blogs</h2>
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
