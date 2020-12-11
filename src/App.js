@@ -5,7 +5,7 @@ import loginService from "./services/login";
 import Notification from "./components/Notification";
 import "./App.css";
 import BlogForm from "./components/BlogForm";
-import Togglable from "./components/Togglable"
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -43,7 +43,6 @@ const App = () => {
   };
 
   const addBlog = async (blogObject) => {
-
     try {
       const returnedBlog = await blogService.create(blogObject);
       setBlogs(blogs.concat(returnedBlog));
@@ -60,15 +59,20 @@ const App = () => {
   };
 
   const updateBlog = async (blogObject) => {
-
-    try{
-      const returnedBlog = await blogService.update(blogObject.id, {...blogObject, likes: blogObject.likes + 1})
-      console.log("returnedBlog",returnedBlog)
-      setBlogs(blogs.map(x => (x.id === returnedBlog.id ? { ...x, likes: returnedBlog.likes } : x)))
+    try {
+      const returnedBlog = await blogService.update(blogObject.id, {
+        ...blogObject,
+        likes: blogObject.likes + 1
+      });
+      console.log("returnedBlog", returnedBlog);
+      setBlogs(
+        blogs.map((x) =>
+          x.id === returnedBlog.id ? { ...x, likes: returnedBlog.likes } : x
+        )
+      );
       setErrorMessage("Like!");
       setIsError(false);
-
-    }catch (exception) {
+    } catch (exception) {
       setErrorMessage("Something went wrong updating a new blog");
       setIsError(true);
     }
@@ -76,7 +80,7 @@ const App = () => {
     setTimeout(() => {
       setErrorMessage(null);
     }, 5000);
-  }
+  };
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -102,8 +106,6 @@ const App = () => {
     </form>
   );
 
-
-  
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
@@ -133,15 +135,16 @@ const App = () => {
           {/* <h2>Create new</h2>
           {blogForm()}
           <br /> */}
-          <Togglable buttonLabel='new blog'>
-        <BlogForm 
-          createBlog={addBlog}/>
-        </Togglable>
+          <Togglable buttonLabel="new blog">
+            <BlogForm createBlog={addBlog} />
+          </Togglable>
 
           <h2>Blogs</h2>
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} onLike={updateBlog}/>
-          ))}
+          {blogs
+            .sort((a, b) => b.likes - a.likes)
+            .map((blog) => (
+              <Blog key={blog.id} blog={blog} onLike={updateBlog} />
+            ))}
         </div>
       )}
     </div>
