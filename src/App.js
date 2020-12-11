@@ -59,6 +59,25 @@ const App = () => {
     }, 5000);
   };
 
+  const updateBlog = async (blogObject) => {
+
+    try{
+      const returnedBlog = await blogService.update(blogObject.id, {...blogObject, likes: blogObject.likes + 1})
+      console.log("returnedBlog",returnedBlog)
+      setBlogs(blogs.map(x => (x.id === returnedBlog.id ? { ...x, likes: returnedBlog.likes } : x)))
+      setErrorMessage("Like!");
+      setIsError(false);
+
+    }catch (exception) {
+      setErrorMessage("Something went wrong updating a new blog");
+      setIsError(true);
+    }
+
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 5000);
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -121,7 +140,7 @@ const App = () => {
 
           <h2>Blogs</h2>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} onLike={updateBlog}/>
           ))}
         </div>
       )}
