@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
@@ -14,6 +14,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isError, setIsError] = useState(false);
+  const blogFormRef = useRef()
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -48,6 +49,7 @@ const App = () => {
       setBlogs(blogs.concat(returnedBlog));
       setErrorMessage("New Blog Added");
       setIsError(false);
+      blogFormRef.current.toggleVisibility()
     } catch (exception) {
       setErrorMessage("Something went wrong adding a new blog");
       setIsError(true);
@@ -156,7 +158,7 @@ const App = () => {
           {/* <h2>Create new</h2>
           {blogForm()}
           <br /> */}
-          <Togglable buttonLabel="new blog">
+          <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <BlogForm createBlog={addBlog} />
           </Togglable>
 
