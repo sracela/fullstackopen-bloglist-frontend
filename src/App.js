@@ -82,6 +82,26 @@ const App = () => {
     }, 5000);
   };
 
+  const removeBlog = async (blogObject) => {
+    try {
+      await blogService.remove(blogObject.id)
+      setBlogs(
+        blogs.filter((blog) =>
+          blog.id !== blogObject.id  )
+      );
+        
+      setErrorMessage("Removed!");
+      setIsError(false);
+    } catch (exception) {
+      setErrorMessage("Something went wrong removing blog");
+      setIsError(true);
+    }
+
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 5000);
+  };
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -143,7 +163,7 @@ const App = () => {
           {blogs
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
-              <Blog key={blog.id} blog={blog} onLike={updateBlog} />
+              <Blog key={blog.id} blog={blog} onLike={updateBlog} onRemove={blog.user === undefined ? null : blog.user.name === user.name ? removeBlog : null}/>
             ))}
         </div>
       )}
