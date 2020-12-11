@@ -83,6 +83,7 @@ const App = () => {
   };
 
   const removeBlog = async (blogObject) => {
+    if (window.confirm(`Do you really want to remove ${blogObject.title}?`)) { 
     try {
       await blogService.remove(blogObject.id)
       setBlogs(
@@ -99,7 +100,7 @@ const App = () => {
 
     setTimeout(() => {
       setErrorMessage(null);
-    }, 5000);
+    }, 5000);}
   };
 
   const loginForm = () => (
