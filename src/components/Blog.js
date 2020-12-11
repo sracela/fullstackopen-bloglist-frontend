@@ -1,4 +1,6 @@
-import React, {useState} from 'react'
+/* eslint-disable linebreak-style */
+
+import React, { useState } from 'react'
 const Blog = ({ blog, onLike, onRemove }) => {
   const [visible, setVisible] = useState(false)
 
@@ -20,22 +22,23 @@ const Blog = ({ blog, onLike, onRemove }) => {
     <div style={blogStyle}>
 
       <div style={hideWhenVisible}>
-      
-      {blog.title} {blog.author}
+
+        {blog.title} {blog.author}
         <button onClick={toggleVisibility}>view</button>
       </div>
       <div style={showWhenVisible}>
-        <div>{blog.title} {blog.author} 
-        <button onClick={toggleVisibility}>hide</button></div> 
+        <div>{blog.title} {blog.author}
+          <button onClick={toggleVisibility}>hide</button></div>
         <p>{blog.url}</p>
         <p>likes: {blog.likes}</p>
-        {blog.user && 
-        <p>{blog.user.username}</p>}
+        {blog.user &&
+          <p>{blog.user.username}</p>}
         <button onClick={() => onLike(blog)}>like</button>
-        
+
         {onRemove !== null && <button onClick={() => onRemove(blog)}>remove</button>}
       </div>
-  </div>
-)}
+    </div>
+  )
+}
 
 export default Blog
