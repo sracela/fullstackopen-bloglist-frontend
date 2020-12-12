@@ -59,7 +59,7 @@ describe('Blog app', function () {
 
     describe('and a blog exists', function () {
       beforeEach(function () {
-        cy.createBlog({ title: 'another note cypress', author: 'superuser', url: 'hola.com' })
+        cy.createBlog({ title: 'another note cypress', author: 'superuser', url: 'hola.com', likes: 0 })
       })
 
       it('it can show content', function () {
@@ -97,7 +97,25 @@ describe('Blog app', function () {
       })
     })
 
+    describe('and some blogs exists', function () {
+      beforeEach(function () {
+        cy.createBlog({ title: 'second blog with more likes', author: 'superuser', url: 'hola.com', likes: 5 })
+        cy.createBlog({ title: 'first blog with more likes', author: 'superuser', url: 'hola.com', likes: 10 })
+        cy.createBlog({ title: 'blog with no likes at all', author: 'superuser', url: 'hola.com', likes: 0 })
+      })
+
+      it.only('blogs are ordered according to likes', function () {
+
+        cy.get('.blog').then( blogs => {
+          console.log('number of blogs', blogs.length)
+          cy.wrap(blogs[0]).contains('likes: 10')
+          cy.wrap(blogs[1]).contains('likes: 5')
+          cy.wrap(blogs[2]).contains('likes: 0')
+        })
+
+      })
+
+    })
   })
 })
-
 
