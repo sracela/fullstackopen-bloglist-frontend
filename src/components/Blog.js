@@ -35,7 +35,7 @@ const Blog = ({ blog, onLike, onRemove }) => {
           <p>{blog.user.username}</p>}
         <button id="likeButton" onClick={() => onLike(blog)}>like</button>
 
-        {onRemove !== null && <button onClick={() => onRemove(blog)}>remove</button>}
+        {onRemove !== null && <button id="removeButton" onClick={() => onRemove(blog)}>remove</button>}
       </div>
     </div>
   )

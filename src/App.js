@@ -156,7 +156,7 @@ const App = () => {
       ) : (
         <div>
           <p>{user.name} logged-in</p>
-          <button onClick={onLogout}>LOGOUT</button>
+          <button id="logoutButton" onClick={onLogout}>LOGOUT</button>
           {/* <h2>Create new</h2>
           {blogForm()}
           <br /> */}
@@ -168,7 +168,7 @@ const App = () => {
           {blogs
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
-              <Blog key={blog.id} blog={blog} onLike={updateBlog} onRemove={blog.user === undefined ? null : blog.user.name === user.name ? removeBlog : null}/>
+              <Blog key={blog.id} blog={blog} onLike={updateBlog} onRemove={blog.user === undefined ? null : blog.user.username === user.username ? removeBlog : null}/>
             ))}
         </div>
       )}

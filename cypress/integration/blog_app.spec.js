@@ -7,6 +7,12 @@ describe('Blog app', function () {
       password: 'salainen'
     }
     cy.request('POST', 'http://localhost:3003/api/users/', user)
+    const anotherUser = {
+      name: 'Matti Luukkainen',
+      username: 'sara',
+      password: 'sekret'
+    }
+    cy.request('POST', 'http://localhost:3003/api/users/', anotherUser)
     cy.visit('http://localhost:3000')
   })
   it('front page can be opened', function () {
@@ -64,12 +70,30 @@ describe('Blog app', function () {
       })
 
 
-      it.only('user can like it', function () {
+      it('user can like it', function () {
         cy.get('.default').contains('view')
           .click()
         cy.get('#numberOfLikes').contains('0')
         cy.get('#likeButton').click()
         cy.get('#numberOfLikes').contains('1')
+      })
+
+
+      it('user can remove it', function () {
+        cy.get('.default').contains('view')
+          .click()
+        cy.get('#removeButton').click()
+        cy.get('html').should('not.contain', 'another note cypress')
+      })
+
+
+      it.only('another user cannot remove it', function () {
+        cy.get('#logoutButton').click()
+        cy.login({ username: 'sara', password: 'sekret' })
+        cy.get('.default').contains('view')
+          .click()
+        // cy.get('#removeButton').click()
+        cy.get('.hide').should('not.contain', 'remove')
       })
     })
 
