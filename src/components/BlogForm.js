@@ -1,80 +1,24 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
+import { useDispatch } from "react-redux";
+import { createBlog } from "../reducers/blogReducer";
 
-const BlogForm = ( { createBlog }
+const BlogForm = ( props
 ) => {
-  const [newBlog, setNewBlog] = useState({
-    title: '',
-    author: '',
-    url: ''
-  })
-
-
-  const handleTitleChange = ({ target }) => {
-    setNewBlog({ ...newBlog, title: target.value })
-  }
-
-
-  const handleAuthorChange = ({ target }) => {
-    setNewBlog({ ...newBlog, author: target.value })
-  }
-
-
-  const handleUrlChange = ({ target }) => {
-    setNewBlog({ ...newBlog, url: target.value })
-  }
-
+  const dispatch = useDispatch();
 
   const addBlog = (event) => {
-    event.preventDefault()
-    createBlog({ ...newBlog })
-    setNewBlog({
-      title: '',
-      author: '',
-      url: ''
-    })
-  }
-  return(
-    <div className="formDiv">
-      <h2>Create a new note</h2>
-      <form onSubmit={addBlog}>
-        <div>
-              title:
-          <input
-            id="title"
-            type="text"
-            value={newBlog.title}
-            name="title"
-            onChange={handleTitleChange}
-          />
-        </div>
-        <div>
-              author:
-          <input
-            id="author"
-            type="text"
-            value={newBlog.author}
-            name="author"
-            onChange={handleAuthorChange}
-          />
-        </div>
-        <div>
-              url:
-          <input
-            id="url"
-            type="text"
-            value={newBlog.url}
-            name="url"
-            onChange={handleUrlChange}
-          />
-        </div>
-        <button type="submit">save</button>
-      </form>
-    </div>)
-}
+    event.preventDefault();
+    const title = event.target.blog.value;
+    event.target.blog.value = "";
+    dispatch(createBlog(title));
+  };
 
-BlogForm.propTypes = {
-  createBlog: PropTypes.func.isRequired,
+  return (
+    <form onSubmit={addBlog}>
+      <input name="blog" />
+      <button type="submit">add</button>
+    </form>
+  );
 }
 
 export default BlogForm
