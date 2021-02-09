@@ -5,7 +5,9 @@ import { likeBlog } from "../reducers/blogReducer";
 const Blog = ({ blog, handleClick }) => {
   return (
     <li key={blog.id}>
-      <p>{blog.title}</p>
+      <h3>{blog.title}</h3>
+      <p>Created by: {blog.author}</p>
+      <p><small>It can be visited at {blog.url}</small></p>
       <strong>likes:</strong> {blog.likes}
       <button onClick={handleClick}>like</button>
     </li>
