@@ -5,6 +5,7 @@ import Blogs from "./components/Blogs";
 const App = () => {
   return (
     <div>
+      <h1>Blogs Application</h1>
       <BlogForm />
       <Blogs />
     </div>
