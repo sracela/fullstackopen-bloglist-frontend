@@ -17,4 +17,26 @@ const blogReducer = (state = [], action) => {
   }
 };
 
+const generateId = () => Number((Math.random() * 1000000).toFixed(0));
+
+export const createBlog = (title) => {
+  return {
+    type: "NEW_BLOG",
+    data: {
+      title,
+      author: "sara",
+      url: "prueba1.com",
+      likes: 2,
+      id: generateId(),
+    },
+  };
+};
+
+export const likeBlog = (id) => {
+  return {
+    type: "LIKE_BLOG",
+    data: { id },
+  };
+};
+
 export default blogReducer;
