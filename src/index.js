@@ -1,14 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
 import { createStore } from "redux";
+import { Provider } from "react-redux";
+import App from "./App";
 import blogReducer from "./reducers/blogReducer"
 
 const store = createStore(blogReducer);
 
-const renderApp = () => {
-  ReactDOM.render(<App />, document.getElementById("root"));
-};
-
-renderApp();
-store.subscribe(renderApp);
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
