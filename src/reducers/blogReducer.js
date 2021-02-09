@@ -28,7 +28,11 @@ const blogReducer = (state = initialState, action) => {
       likes: blogToChange.likes + 1,
     }
     return state.map((blog) => (blog.id !== id ? blog : changedBlog))
-  }
+    }
+    case 'REMOVE_BLOG': {
+    const id = action.data.id;
+    return state.filter((blog) => (blog.id !== id));
+    }
   default:
     return state
   }
@@ -55,5 +59,12 @@ export const likeBlog = (id) => {
     data: { id },
   }
 }
+
+export const removeBlog = (id) => {
+  return {
+    type: "REMOVE_BLOG",
+    data: { id },
+  };
+};
 
 export default blogReducer

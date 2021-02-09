@@ -1,15 +1,20 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { likeBlog } from "../reducers/blogReducer";
+import { likeBlog, removeBlog } from "../reducers/blogReducer";
 
-const Blog = ({ blog, handleClick }) => {
+const Blog = ({ blog, onLike, onRemove }) => {
   return (
     <li key={blog.id}>
       <h3>{blog.title}</h3>
       <p>Created by: {blog.author}</p>
-      <p><small>It can be visited at {blog.url}</small></p>
+      <p>
+        <small>It can be visited at {blog.url}</small>
+      </p>
       <strong>likes:</strong> {blog.likes}
-      <button onClick={handleClick}>like</button>
+      <div>
+        <button onClick={onLike}>like</button>
+        <button onClick={onRemove}>remove</button>
+      </div>
     </li>
   );
 };
@@ -28,7 +33,8 @@ const Blogs = () => {
             <Blog
               key={blog.id}
               blog={blog}
-              handleClick={() => dispatch(likeBlog(blog.id))}
+              onLike={() => dispatch(likeBlog(blog.id))}
+              onRemove={() => dispatch(removeBlog(blog.id))}
             />
           ))}
       </ul>
