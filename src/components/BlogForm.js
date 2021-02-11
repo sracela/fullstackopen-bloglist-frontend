@@ -1,18 +1,26 @@
-import React from 'react'
-import { useDispatch } from "react-redux";
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import { createBlog } from "../reducers/blogReducer";
+import { toggleVisibility } from "../reducers/togglableReducer";
 import { useField } from "../hooks";
 
 const BlogForm = () => {
   const dispatch = useDispatch();
+  const visible = useSelector((state) => state.visibility);
 
-  const title = useField("text");
-  const author = useField("text");
-  const url = useField("text");
+  const { reset: resetTitle, ...title } = useField("text");
+  const { reset: resetAuthor, ...author } = useField("text");
+  const { reset: resetURL, ...url } = useField("text");
+
+  const handleReset = () => resetTitle(resetAuthor(resetURL()));
+
+  useEffect(handleReset, [visible])
 
   const addBlog = (event) => {
     event.preventDefault();
     dispatch(createBlog(title.value, author.value, url.value));
+    dispatch(toggleVisibility(false));
+    handleReset()
   };
 
   return (

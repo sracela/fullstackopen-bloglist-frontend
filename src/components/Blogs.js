@@ -21,7 +21,7 @@ const Blog = ({ blog, onLike, onRemove }) => {
 
 const Blogs = () => {
   const dispatch = useDispatch();
-  const blogs = useSelector((state) => state);
+  const blogs = useSelector((state) => state.blogs);
 
   return (
     <div>
