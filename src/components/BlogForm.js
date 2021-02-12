@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { createBlog } from "../reducers/blogReducer";
 import { toggleVisibility } from "../reducers/togglableReducer";
+import { setNotification } from "../reducers/notificationReducer";
 import { useField } from "../hooks";
 
 const BlogForm = () => {
@@ -20,6 +21,7 @@ const BlogForm = () => {
     event.preventDefault();
     dispatch(createBlog(title.value, author.value, url.value));
     dispatch(toggleVisibility(false));
+    dispatch(setNotification(`New blog "${title.value}" created`, 3));
     handleReset()
   };
 

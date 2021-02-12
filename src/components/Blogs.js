@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { likeBlog, removeBlog } from "../reducers/blogReducer";
+import { setNotification } from "../reducers/notificationReducer";
 
 const Blog = ({ blog, onLike, onRemove }) => {
   return (
@@ -23,6 +24,16 @@ const Blogs = () => {
   const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs);
 
+const handleLike = (id) => () => {
+  dispatch(likeBlog(id));
+  dispatch(setNotification(`Like!`, 3));
+};
+
+const handleRemove = (id) => () => {
+  dispatch(dispatch(removeBlog(id)));
+  dispatch(setNotification(`Remove!`, 3));
+};
+
   return (
     <div>
       <h2>Blogs</h2>
@@ -33,8 +44,8 @@ const Blogs = () => {
             <Blog
               key={blog.id}
               blog={blog}
-              onLike={() => dispatch(likeBlog(blog.id))}
-              onRemove={() => dispatch(removeBlog(blog.id))}
+              onLike={handleLike(blog.id)}
+              onRemove={handleRemove(blog.id)}
             />
           ))}
       </ul>
