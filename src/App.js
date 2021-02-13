@@ -9,8 +9,8 @@ const App = () => {
     <div>
       <h1>Blogs Application</h1>
       <Notification />
-      <Togglable buttonLabel="new blog">
-        <BlogForm />
+      <Togglable buttonLabel="new blog" id="blogForm">
+        <BlogForm id="blogForm" />
       </Togglable>
       <Blogs />
     </div>

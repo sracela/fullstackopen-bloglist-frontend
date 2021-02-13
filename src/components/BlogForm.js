@@ -5,9 +5,11 @@ import { toggleVisibility } from "../reducers/togglableReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import { useField } from "../hooks";
 
-const BlogForm = () => {
+const BlogForm = (props) => {
   const dispatch = useDispatch();
-  const visible = useSelector((state) => state.visibility);
+  const visible = useSelector((state) =>
+    state.togglables.find((a) => a.id === props.id)
+  )?.visibility;
 
   const { reset: resetTitle, ...title } = useField("text");
   const { reset: resetAuthor, ...author } = useField("text");
@@ -20,7 +22,7 @@ const BlogForm = () => {
   const addBlog = (event) => {
     event.preventDefault();
     dispatch(createBlog(title.value, author.value, url.value));
-    dispatch(toggleVisibility(false));
+    dispatch(() => dispatch(toggleVisibility(props.id)));
     dispatch(setNotification(`New blog "${title.value}" created`, 3));
     handleReset()
   };

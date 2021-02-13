@@ -2,20 +2,25 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { likeBlog, removeBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
+import Togglable from "./Togglable";
 
 const Blog = ({ blog, onLike, onRemove }) => {
   return (
     <li key={blog.id}>
       <h3>{blog.title}</h3>
       <p>Created by: {blog.author}</p>
-      <p>
-        <small>It can be visited at {blog.url}</small>
-      </p>
-      <strong>likes:</strong> {blog.likes}
-      <div>
-        <button onClick={onLike}>like</button>
-        <button onClick={onRemove}>remove</button>
-      </div>
+      <Togglable buttonLabel="show" id={`blog_${blog.id}`}>
+        <div>
+        <p>
+          <small>It can be visited at {blog.url}</small>
+        </p>
+        <strong>likes:</strong> {blog.likes}
+        <div>
+          <button onClick={onLike}>like</button>
+          <button onClick={onRemove}>remove</button>
+          </div>
+          </div>
+      </Togglable>
     </li>
   );
 };

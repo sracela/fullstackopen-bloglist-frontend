@@ -7,7 +7,7 @@ import notificationReducer from "./reducers/notificationReducer";
 
 const reducer = combineReducers({
   blogs: blogReducer,
-  visibility: togglableReducer,
+  togglables: togglableReducer,
   notification: notificationReducer,
 });
 
