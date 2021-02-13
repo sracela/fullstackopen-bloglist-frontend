@@ -4,8 +4,10 @@ import thunk from "redux-thunk";
 import blogReducer from "./reducers/blogReducer";
 import togglableReducer from "./reducers/togglableReducer";
 import notificationReducer from "./reducers/notificationReducer";
+import auth from "./reducers/auth";
 
 const reducer = combineReducers({
+  auth,
   blogs: blogReducer,
   togglables: togglableReducer,
   notification: notificationReducer,

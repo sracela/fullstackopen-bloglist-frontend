@@ -14,7 +14,6 @@ ReactDOM.render(
 
 
 /** 
- * TODO: Login!!
- * TODO: Probar server con Login
+ * TODO: pequeño bug con el username
  * TODO: Notification styled, error red, success green
 **/

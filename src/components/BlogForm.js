@@ -10,6 +10,8 @@ import blogService from "../services/blogs";
 const BlogForm = () => {
   const id = "blogForm";
   const dispatch = useDispatch();
+
+  const { user: currentUser } = useSelector((state) => state.auth);
   const visible = useSelector((state) =>
     state.togglables.find((a) => a.id === id)
   )?.visibility;
@@ -24,7 +26,12 @@ const BlogForm = () => {
 
   const addBlog = async (event) => {
     event.preventDefault();
-    const newBlog = { title: title.value, author: author.value, url: url.value }
+    const newBlog = {
+      title: title.value,
+      author: author.value,
+      url: url.value,
+      user: currentUser,
+    };
     try {
     const returnedBlog = await blogService.create(newBlog);
     dispatch(createBlog(returnedBlog));
