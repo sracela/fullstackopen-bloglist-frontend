@@ -17,7 +17,7 @@ const Togglable = (props) => {
   }, [dispatch, props.id]);
   
   return (
-    <div>
+    <div style={{ position: "relative", width: '100%'}}>
       <div style={hideWhenVisible}>
         <button onClick={() => dispatch(toggleVisibility(props.id))}>
           {props.buttonLabel}
@@ -25,7 +25,11 @@ const Togglable = (props) => {
       </div>
       <div style={showWhenVisible} className="togglableContent">
         {props.children}
-        <button onClick={() => dispatch(toggleVisibility(props.id))}>close</button>
+        <button
+          onClick={() => dispatch(toggleVisibility(props.id))}
+        >
+          close
+        </button>
       </div>
     </div>
   );

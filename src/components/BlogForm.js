@@ -4,11 +4,13 @@ import { createBlog } from "../reducers/blogReducer";
 import { toggleVisibility } from "../reducers/togglableReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import { useField } from "../hooks";
+import Togglable from "./Togglable";
 
-const BlogForm = (props) => {
+const BlogForm = () => {
+  const id = "blogForm";
   const dispatch = useDispatch();
   const visible = useSelector((state) =>
-    state.togglables.find((a) => a.id === props.id)
+    state.togglables.find((a) => a.id === id)
   )?.visibility;
 
   const { reset: resetTitle, ...title } = useField("text");
@@ -22,26 +24,33 @@ const BlogForm = (props) => {
   const addBlog = (event) => {
     event.preventDefault();
     dispatch(createBlog(title.value, author.value, url.value));
-    dispatch(() => dispatch(toggleVisibility(props.id)));
+    dispatch(() => dispatch(toggleVisibility(id)));
     dispatch(setNotification(`New blog "${title.value}" created`, 3));
     handleReset()
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: "22vw", padding: "5px" }}>
       <h2>Create a new blog</h2>
-      <form onSubmit={addBlog}>
-        title:
-        <input {...title} />
-        <br />
-        author:
-        <input {...author} />
-        <br />
-        url:
-        <input {...url} />
-        <br />
-        <button type="submit">add</button>
-      </form>
+      <Togglable buttonLabel="new blog" id={id}>
+        <form onSubmit={addBlog}>
+          title:
+          <input {...title} />
+          <br />
+          <br />
+          author:
+          <input {...author} />
+          <br />
+          <br />
+          url:
+          <input {...url} />
+          <br />
+          <br />
+          <button type="submit">add</button>
+          <br />
+          <br />
+        </form>
+      </Togglable>
     </div>
   );
 }

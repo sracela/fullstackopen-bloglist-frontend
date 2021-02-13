@@ -13,7 +13,6 @@ ReactDOM.render(
 
 
 /** 
- * TODO: toggleVisibilityOf in Blogs.js/Blog, could i reuse Toggable?
  * TODO: Login!!
  * TODO: Redux + server
  * TODO: Notification styled, error red, success green
