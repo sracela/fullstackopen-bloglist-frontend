@@ -5,6 +5,7 @@ import { toggleVisibility } from "../reducers/togglableReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import { useField } from "../hooks";
 import Togglable from "./Togglable";
+import blogService from "../services/blogs";
 
 const BlogForm = () => {
   const id = "blogForm";
@@ -21,16 +22,25 @@ const BlogForm = () => {
 
   useEffect(handleReset, [visible])
 
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault();
-    dispatch(createBlog(title.value, author.value, url.value));
+    const newBlog = { title: title.value, author: author.value, url: url.value }
+    try {
+    const returnedBlog = await blogService.create(newBlog);
+    dispatch(createBlog(returnedBlog));
     dispatch(() => dispatch(toggleVisibility(id)));
-    dispatch(setNotification(`New blog "${title.value}" created`, 3));
-    handleReset()
+    dispatch(setNotification(`New blog "${returnedBlog.title}" created`, 3));
+    handleReset();
+
+    } catch (e) {
+    dispatch(setNotification(`Error creating new blog`, 3));
+    handleReset();
+      
+    }
   };
 
   return (
-    <div style={{ maxWidth: "22vw", padding: "5px" }}>
+    <div style={{ maxWidth: "50%", padding: "5px" }}>
       <h2>Create a new blog</h2>
       <Togglable buttonLabel="new blog" id={id}>
         <form onSubmit={addBlog}>

@@ -7,6 +7,8 @@ const Notification = () => {
     return null;
   }
   const style = {
+    position: 'sticky',
+    top: '2%',
     border: "solid",
     padding: 10,
     borderWidth: 1,
