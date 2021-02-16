@@ -1,80 +1,73 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import { createBlog } from "../reducers/blogReducer";
+import { toggleVisibility } from "../reducers/togglableReducer";
+import { setNotification } from "../reducers/notificationReducer";
+import { useField } from "../hooks";
+import Togglable from "./Togglable";
 
-const BlogForm = ( { createBlog }
-) => {
-  const [newBlog, setNewBlog] = useState({
-    title: '',
-    author: '',
-    url: ''
-  })
+const BlogForm = () => {
+  const id = "blogForm";
+  const dispatch = useDispatch();
 
+  const { user: currentUser } = useSelector((state) => state.auth);
+  const visible = useSelector((state) =>
+    state.togglables.find((a) => a.id === id)
+  )?.visibility;
 
-  const handleTitleChange = ({ target }) => {
-    setNewBlog({ ...newBlog, title: target.value })
-  }
+  const { reset: resetTitle, ...title } = useField("text");
+  const { reset: resetAuthor, ...author } = useField("text");
+  const { reset: resetURL, ...url } = useField("text");
 
+  const handleReset = () => resetTitle(resetAuthor(resetURL()));
 
-  const handleAuthorChange = ({ target }) => {
-    setNewBlog({ ...newBlog, author: target.value })
-  }
+  useEffect(handleReset, [visible])
 
+  const addBlog = async (event) => {
+    event.preventDefault();
+    const newBlog = {
+      title: title.value,
+      author: author.value,
+      url: url.value,
+      user: currentUser,
+    };
+    try {
+    dispatch(createBlog(newBlog));
+    dispatch(() => dispatch(toggleVisibility(id)));
+    dispatch(setNotification(`New blog "${newBlog.title}" created`, false, 3));
+    handleReset();
 
-  const handleUrlChange = ({ target }) => {
-    setNewBlog({ ...newBlog, url: target.value })
-  }
+    } catch (e) {
+    dispatch(setNotification(`Error creating new blog`, true, 3));
+    handleReset();
+      
+    }
+  };
 
-
-  const addBlog = (event) => {
-    event.preventDefault()
-    createBlog({ ...newBlog })
-    setNewBlog({
-      title: '',
-      author: '',
-      url: ''
-    })
-  }
-  return(
-    <div className="formDiv">
-      <h2>Create a new note</h2>
-      <form onSubmit={addBlog}>
-        <div>
-              title:
-          <input
-            id="title"
-            type="text"
-            value={newBlog.title}
-            name="title"
-            onChange={handleTitleChange}
-          />
-        </div>
-        <div>
-              author:
-          <input
-            id="author"
-            type="text"
-            value={newBlog.author}
-            name="author"
-            onChange={handleAuthorChange}
-          />
-        </div>
-        <div>
-              url:
-          <input
-            id="url"
-            type="text"
-            value={newBlog.url}
-            name="url"
-            onChange={handleUrlChange}
-          />
-        </div>
-        <button type="submit">save</button>
-      </form>
-    </div>)
-}
-
-BlogForm.propTypes = {
-  createBlog: PropTypes.func.isRequired,
+  return (
+    <div style={{ maxWidth: "50%", padding: "5px" }}>
+      <h2>Create a new blog</h2>
+      <Togglable buttonLabel="new blog" id={id}>
+        <form onSubmit={addBlog}>
+          title:
+          <input {...title} />
+          <br />
+          <br />
+          author:
+          <input {...author} />
+          <br />
+          <br />
+          url:
+          <input {...url} />
+          <br />
+          <br />
+          <button type="submit">add</button>
+          <br />
+          <br />
+        </form>
+      </Togglable>
+    </div>
+  );
 }
 
 export default BlogForm
