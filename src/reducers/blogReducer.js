@@ -1,3 +1,5 @@
+import blogService from "../services/blogs";
+
 const blogReducer = (state = [], action) => {
   switch (action.type) {
     case "NEW_BLOG":
@@ -22,37 +24,58 @@ const blogReducer = (state = [], action) => {
   }
 }
 
-export const createBlog = (data) => {
-  return {
-    type: "NEW_BLOG",
-    data
-    // {
-    //   ...newBlog,
-    //   likes: 0,
-    //   id: generateId(),
-    // },
-  };
-}
-
-export const likeBlog = (id) => {
-  return {
-    type: 'LIKE_BLOG',
-    data: { id },
+export const createBlog = (data) => async (dispatch) => {
+  try {
+    const newBlog = await blogService.create(data);
+    dispatch({
+      type: "NEW_BLOG",
+      data: newBlog,
+    });
+    return Promise.resolve();
+  } catch (e) {
+    return Promise.reject();
   }
-}
-
-export const removeBlog = (id) => {
-  return {
-    type: "REMOVE_BLOG",
-    data: { id },
   };
-};
 
+export const likeBlog = (blogObject) => async (dispatch) => {
+  try {
+    await blogService.update(blogObject.id, {
+      ...blogObject,
+      likes: blogObject.likes + 1,
+    });
+    dispatch({
+      type: "LIKE_BLOG",
+      data: blogObject,
+    });
+    return Promise.resolve();
+  } catch (e) {
+    return Promise.reject();
+    
+  }
+  };
 
-export const initializeBlogs = (blogs) => {
-  return {
-    type: "INIT_BLOGS",
-    data: blogs,
+export const removeBlog = (blogObject) => 
+  async (dispatch) => {
+    try{
+      await blogService.remove(blogObject.id);
+      dispatch({
+        type: "REMOVE_BLOG",
+        data: blogObject,
+      });
+    return Promise.resolve();
+      }
+    catch (e) {
+    return Promise.reject();
+    }
+  };
+
+export const initializeBlogs = () => {
+  return async (dispatch) => {
+    const blogs = await blogService.getAll();
+    dispatch({
+      type: "INIT_BLOGS",
+      data: blogs,
+    });
   };
 };
 

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import BlogForm from "./components/BlogForm";
 import Blogs from "./components/Blogs";
 import Notification from "./components/Notification";
-import blogService from "./services/blogs";
 import { initializeBlogs } from "./reducers/blogReducer";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "./components/Login";
@@ -13,8 +12,8 @@ const App = () => {
   const { isLoggedIn, user: currentUser } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => dispatch(initializeBlogs(blogs)));
-  }, [dispatch]);
+    dispatch(initializeBlogs());
+  }, [dispatch]); 
 
   const onLogout = () => {
     dispatch(logout());

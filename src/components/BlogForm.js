@@ -5,7 +5,6 @@ import { toggleVisibility } from "../reducers/togglableReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import { useField } from "../hooks";
 import Togglable from "./Togglable";
-import blogService from "../services/blogs";
 
 const BlogForm = () => {
   const id = "blogForm";
@@ -33,10 +32,9 @@ const BlogForm = () => {
       user: currentUser,
     };
     try {
-    const returnedBlog = await blogService.create(newBlog);
     dispatch(createBlog(newBlog));
     dispatch(() => dispatch(toggleVisibility(id)));
-    dispatch(setNotification(`New blog "${returnedBlog.title}" created`, false, 3));
+    dispatch(setNotification(`New blog "${newBlog.title}" created`, false, 3));
     handleReset();
 
     } catch (e) {

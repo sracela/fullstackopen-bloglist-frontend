@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { likeBlog, removeBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import Togglable from "./Togglable";
-import blogService from "../services/blogs";
-
 const Blog = ({ blog, onLike, onRemove }) => {
   return (
     <li
@@ -48,11 +46,7 @@ const Blogs = () => {
 
   const handleLike = (blogObject) => async () => {
     try {
-      await blogService.update(blogObject.id, {
-        ...blogObject,
-        likes: blogObject.likes + 1,
-      });
-      dispatch(likeBlog(blogObject.id));
+      await dispatch(likeBlog(blogObject));
       dispatch(setNotification(`Like!`, false, 3));
     } catch (e) {
       dispatch(setNotification(`Error liking the blog!`, true, 3));
@@ -62,8 +56,7 @@ const Blogs = () => {
   const handleRemove = (blogObject) => async () => {
     if (window.confirm(`Do you really want to remove ${blogObject.title}?`)) {
       try {
-        await blogService.remove(blogObject.id);
-        dispatch(dispatch(removeBlog(blogObject.id)));
+        await dispatch(removeBlog(blogObject));
         dispatch(setNotification(`Remove!`, false, 3));
       } catch (e) {
         dispatch(setNotification(`Error removing the blog!`, true, 3));

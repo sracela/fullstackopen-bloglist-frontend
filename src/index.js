@@ -14,6 +14,8 @@ ReactDOM.render(
 
 
 /** 
- * TODO: Notification styled, error red, success green
+ * TODO: Redirect del router
  * TODO: revisar app-copy y borrar lo que sobre
+ * TODO: backend, que devuelva el user cuando creas un blog
+ * TODO: use thunk in blogReducer action creators
 **/
