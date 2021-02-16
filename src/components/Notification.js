@@ -8,13 +8,17 @@ const Notification = () => {
   }
   const style = {
     position: 'sticky',
-    top: '2%',
-    border: "solid",
+    top: '10px',
     padding: 10,
-    borderWidth: 1,
+    zIndex: 1000,
+    maxWidth: '50%'
   };
   // <div className="error" style={{ color: error ? 'red' : 'green' }}></div>
-  return <div style={style}>{notification}</div>;
+  return (
+    <div style={style}>
+      <p className={notification.iserror ? "error" : "success"}>{notification.message}</p>
+    </div>
+  );
 };
 
 export default Notification;

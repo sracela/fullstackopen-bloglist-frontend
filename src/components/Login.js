@@ -16,9 +16,9 @@ const Login = () => {
     try {
     await dispatch(login({ username: username.value, password: password.value }));
       handleReset();
-      dispatch(setNotification("Succesfuly login", 3));
+      dispatch(setNotification("Succesfuly login", false, 3));
     } catch (exception) {
-      dispatch(setNotification("Wrong credentials", 3));
+      dispatch(setNotification("Wrong credentials", true, 3));
     }
   };  
 

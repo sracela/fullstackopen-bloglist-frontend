@@ -14,6 +14,6 @@ ReactDOM.render(
 
 
 /** 
- * TODO: pequeño bug con el username
  * TODO: Notification styled, error red, success green
+ * TODO: revisar app-copy y borrar lo que sobre
 **/

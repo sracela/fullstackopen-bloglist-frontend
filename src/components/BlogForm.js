@@ -36,11 +36,11 @@ const BlogForm = () => {
     const returnedBlog = await blogService.create(newBlog);
     dispatch(createBlog(newBlog));
     dispatch(() => dispatch(toggleVisibility(id)));
-    dispatch(setNotification(`New blog "${returnedBlog.title}" created`, 3));
+    dispatch(setNotification(`New blog "${returnedBlog.title}" created`, false, 3));
     handleReset();
 
     } catch (e) {
-    dispatch(setNotification(`Error creating new blog`, 3));
+    dispatch(setNotification(`Error creating new blog`, true, 3));
     handleReset();
       
     }

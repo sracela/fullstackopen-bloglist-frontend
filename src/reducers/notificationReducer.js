@@ -12,18 +12,20 @@ const notificationReducer = (state = initialState, action) => {
 };
 
 var timeoutID;
-export const setNotification = (notification, time) => {
+export const setNotification = (message, iserror, time) => {
   clearTimeout(timeoutID);
   return async (dispatch) => {
     dispatch({
       type: "SET_NOTIFICATION",
-      notification,
+      notification: {
+        message,
+        iserror,
+      },
     });
     timeoutID = setTimeout(
       () =>
         dispatch({
           type: "DELETE_NOTIFICATION",
-          notification,
         }),
       time * 1000
     );

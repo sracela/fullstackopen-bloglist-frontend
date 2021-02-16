@@ -53,9 +53,9 @@ const Blogs = () => {
         likes: blogObject.likes + 1,
       });
       dispatch(likeBlog(blogObject.id));
-      dispatch(setNotification(`Like!`, 3));
+      dispatch(setNotification(`Like!`, false, 3));
     } catch (e) {
-      dispatch(setNotification(`Error liking the blog!`, 3));
+      dispatch(setNotification(`Error liking the blog!`, true, 3));
     }
   };
 
@@ -64,9 +64,9 @@ const Blogs = () => {
       try {
         await blogService.remove(blogObject.id);
         dispatch(dispatch(removeBlog(blogObject.id)));
-        dispatch(setNotification(`Remove!`, 3));
+        dispatch(setNotification(`Remove!`, false, 3));
       } catch (e) {
-        dispatch(setNotification(`Error removing the blog!`, 3));
+        dispatch(setNotification(`Error removing the blog!`, true, 3));
       }
     }
   };
