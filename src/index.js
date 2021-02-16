@@ -14,9 +14,10 @@ ReactDOM.render(
 
 
 /** 
+ * TODO: 7.13 Users view
  * TODO: Redirect del router
- * TODO: revisar app-copy y borrar lo que sobre
  * TODO: backend, que devuelva el user cuando creas un blog
  * TODO: clean DB
- * TODO: meter un enum para los ids de Togglable
+ * ? meter un enum para los ids de Togglable
+ * ? caducar sesion
 **/
