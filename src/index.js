@@ -17,5 +17,6 @@ ReactDOM.render(
  * TODO: Redirect del router
  * TODO: revisar app-copy y borrar lo que sobre
  * TODO: backend, que devuelva el user cuando creas un blog
- * TODO: use thunk in blogReducer action creators
+ * TODO: clean DB
+ * TODO: meter un enum para los ids de Togglable
 **/
