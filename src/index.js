@@ -14,7 +14,6 @@ ReactDOM.render(
 
 
 /** 
- * TODO: 7.13 Users view
  * TODO: Redirect del router
  * TODO: backend, que devuelva el user cuando creas un blog
  * TODO: clean DB

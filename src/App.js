@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import BlogForm from "./components/BlogForm";
 import Blogs from "./components/Blogs";
 import Users from "./components/Users";
+import User from "./components/User";
 import Notification from "./components/Notification";
 import { initializeBlogs } from "./reducers/blogReducer";
 import { initializeUsers } from "./reducers/userReducer";
@@ -43,7 +44,7 @@ const App = () => {
   }
   return (
     <Router>
-      <div style={{position: 'absolute', top: 0, right: 0, margin: '10px'}}>
+      <div style={{ position: "absolute", top: 0, right: 0, margin: "10px" }}>
         <Link style={padding} to="/">
           home
         </Link>
@@ -64,6 +65,9 @@ const App = () => {
         <Route path="/blogs">
           <BlogForm />
           <Blogs />
+        </Route>
+        <Route path="/users/:id">
+          <User />
         </Route>
         <Route path="/users">
           <Users />
