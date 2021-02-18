@@ -4,6 +4,7 @@ import Blogs from "./components/Blogs";
 import Users from "./components/Users";
 import Notification from "./components/Notification";
 import { initializeBlogs } from "./reducers/blogReducer";
+import { initializeUsers } from "./reducers/userReducer";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "./components/Login";
 import { logout } from "./reducers/auth";
@@ -20,8 +21,13 @@ const App = () => {
   };
 
   useEffect(() => {
+    try {
     dispatch(initializeBlogs());
-  }, [dispatch]); 
+    dispatch(initializeUsers());
+    } catch (e) {
+      console.log("problem loading blogs")
+    }
+  }, [dispatch]);
 
   const onLogout = () => {
     dispatch(logout());
