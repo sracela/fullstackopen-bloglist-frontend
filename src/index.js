@@ -14,7 +14,6 @@ ReactDOM.render(
 
 
 /** 
- * TODO: 7.16: Navigation -> Login + router
  * TODO: backend, que devuelva el user cuando creas un blog
  * TODO: clean DB
  * ? meter un enum para los ids de Togglable
