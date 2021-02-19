@@ -1,24 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React from 'react'
 
-const Notification = () => {
-  const notification = useSelector((state) => state.notification);
-  if (notification === "NONE") {
-    return null;
+const Notification = ({ message, error }) => {
+  if (message === null) {
+    return null
   }
-  const style = {
-    position: 'sticky',
-    top: '10px',
-    padding: 10,
-    zIndex: 1000,
-    maxWidth: '50%'
-  };
-  // <div className="error" style={{ color: error ? 'red' : 'green' }}></div>
-  return (
-    <div style={style}>
-      <p className={notification.iserror ? "error" : "success"}>{notification.message}</p>
-    </div>
-  );
-};
 
-export default Notification;
+  return (
+    <div className="error" style={{ color: error ? 'red' : 'green' }}>
+      {message}
+    </div>
+  )
+}
+
+export default Notification
