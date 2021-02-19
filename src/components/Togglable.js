@@ -1,33 +1,39 @@
-import React, { useState, useImperativeHandle } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from "react-redux";
+import { addTogglable, toggleVisibility } from "../reducers/togglableReducer";
 
-const Togglable = React.forwardRef((props, ref) => {
-  const [visible, setVisible] = useState(false)
+const Togglable = (props) => {
+  const dispatch = useDispatch();
+  const visible = useSelector((state) =>
+    state.togglables.find((a) => a.id === props.id)
+  )?.visibility;
+  const hideWhenVisible = { display: visible ? "none" : "" };
+  const showWhenVisible = { display: visible ? "" : "none" };
 
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
-
-  const toggleVisibility = () => {
-    setVisible(!visible)
-  }
-  useImperativeHandle(ref, () => {
-    return {
-      toggleVisibility
-    }
-  })
-
+  useEffect(() => {
+  const onAddTogglable = () => dispatch(addTogglable(props.id));
+    onAddTogglable()
+  }, [dispatch, props.id]);
+  
   return (
-    <div>
+    <div style={{ position: "relative", width: '100%'}}>
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+        <button onClick={() => dispatch(toggleVisibility(props.id))}>
+          {props.buttonLabel}
+        </button>
       </div>
       <div style={showWhenVisible} className="togglableContent">
         {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
+        <button
+          onClick={() => dispatch(toggleVisibility(props.id))}
+        >
+          close
+        </button>
       </div>
     </div>
-  )
-})
+  );
+}
 
 Togglable.propTypes = {
   buttonLabel: PropTypes.string.isRequired

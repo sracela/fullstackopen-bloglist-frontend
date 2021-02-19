@@ -1,44 +1,72 @@
-/* eslint-disable linebreak-style */
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { likeBlog, removeBlog } from "../reducers/blogReducer";
+import { setNotification } from "../reducers/notificationReducer";
 
-import React, { useState } from 'react'
-const Blog = ({ blog, onLike, onRemove }) => {
-  const [visible, setVisible] = useState(false)
+const Blog = () => {
+  const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blogs);
+  const id = useParams().id;
+  const blog = blogs.find((n) => n.id === id.toString());
 
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
+  if (!blog) {
+    return <div>no data</div>;
   }
 
-  const toggleVisibility = () => {
-    setVisible(!visible)
-  }
+  const handleLike = (blogObject) => async () => {
+    try {
+      await dispatch(likeBlog(blogObject));
+      dispatch(setNotification(`Like!`, false, 3));
+    } catch (e) {
+      dispatch(setNotification(`Error liking the blog!`, true, 3));
+    }
+  };
 
+  const handleRemove = (blogObject) => async () => {
+    if (window.confirm(`Do you really want to remove ${blogObject.title}?`)) {
+      try {
+        await dispatch(removeBlog(blogObject));
+        dispatch(setNotification(`Remove!`, false, 3));
+      } catch (e) {
+        dispatch(setNotification(`Error removing the blog!`, true, 3));
+      }
+    }
+  };
   return (
-    <div style={blogStyle} className="blog">
-
-      <div style={hideWhenVisible} className="default">
-
-        <p>{blog.title} </p>{blog.author}
-        <button onClick={toggleVisibility}>view</button>
-      </div>
-      <div style={showWhenVisible} className="hide">
-        <div>{blog.title} {blog.author}
-          <button onClick={toggleVisibility}>hide</button></div>
-        <p>{blog.url}</p>
-        <p>likes: <span id="numberOfLikes">{blog.likes}</span></p>
-        {blog.user &&
-          <p>{blog.user.username}</p>}
-        <button id="likeButton" onClick={() => onLike(blog)}>like</button>
-
-        {onRemove !== null && <button id="removeButton" onClick={() => onRemove(blog)}>remove</button>}
+    <div
+      key={blog.id}
+        style={{
+        
+        boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+        padding: "10px",
+        borderRadius: "8px",
+        width: "300px",
+        height: "325px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        margin: "auto",
+        textAlign: "center"
+      }}
+    >
+      <h3>{blog.title}</h3>
+      <p>Created by: {blog.author}</p>
+      {blog.user && <p>Username: {blog.user.username}</p>}
+      <div>
+        <p>
+          <small>It can be visited at {blog.url}</small>
+        </p>
+        <p>
+          <strong>likes:</strong> {blog.likes}
+        </p>
+        <div>
+          <button onClick={handleLike(blog)}>like</button>
+          <button onClick={handleRemove(blog)}>remove</button>
+        </div>
+        <br />
       </div>
     </div>
-  )
-}
-
-export default Blog
+  );
+};
+export default Blog;
