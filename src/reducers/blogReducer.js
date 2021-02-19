@@ -69,14 +69,18 @@ export const removeBlog = (blogObject) =>
     }
   };
 
-export const initializeBlogs = () => {
-  return async (dispatch) => {
-    const blogs = await blogService.getAll();
-    dispatch({
-      type: "INIT_BLOGS",
-      data: blogs,
-    });
+export const initializeBlogs = () => 
+  async (dispatch) => {
+    try {
+      const blogs = await blogService.getAll();
+      dispatch({
+        type: "INIT_BLOGS",
+        data: blogs,
+      });
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject();
+    }
   };
-};
 
 export default blogReducer
