@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import BlogForm from "./components/BlogForm";
 import Blogs from "./components/Blogs";
 import Users from "./components/Users";
+import Blog from "./components/Blog";
 import User from "./components/User";
 import Notification from "./components/Notification";
 import { initializeBlogs } from "./reducers/blogReducer";
@@ -62,6 +63,9 @@ const App = () => {
         <button onClick={onLogout}>LOGOUT</button>
       </div>
       <Switch>
+        <Route path="/blogs/:id">
+          <Blog />
+        </Route>
         <Route path="/blogs">
           <BlogForm />
           <Blogs />
@@ -77,14 +81,6 @@ const App = () => {
         </Route>
       </Switch>
     </Router>
-    // <div>
-    //   <h1>Blogs Application</h1>
-    //   <Notification />
-    //   <p>{currentUser.name} logged-in</p>
-    //   <button onClick={onLogout}>LOGOUT</button>
-    //   <BlogForm />
-    //   <Blogs />
-    // </div>
   );
 };
 
