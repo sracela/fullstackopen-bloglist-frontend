@@ -1,14 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { likeBlog, removeBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 
-const Blog = () => {
+const Blog = ({blog}) => {
   const dispatch = useDispatch();
-  const blogs = useSelector((state) => state.blogs);
-  const id = useParams().id;
-  const blog = blogs.find((n) => n.id === id.toString());
 
   if (!blog) {
     return <div>no data</div>;
