@@ -17,9 +17,6 @@ ReactDOM.render(
 
 
 /*
- * TODO: 7.17: comments, step1
- * TODO: backend, que devuelva el user cuando creas un blog
- * TODO: clean DB
  * ? meter un enum para los ids de Togglable
  * ? caducar sesion
 **/

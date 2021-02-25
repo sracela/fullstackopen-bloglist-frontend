@@ -19,6 +19,17 @@ const blogReducer = (state = [], action) => {
       const id = action.data.id;
       return state.filter((blog) => blog.id !== id);
     }
+    case "COMMENT_BLOG": {
+      const id = action.data.id;
+      const blogToChange = state.find((n) => n.id === id);
+      const changedBlog = {
+        ...blogToChange,
+        comments: blogToChange.comments
+          ? [...blogToChange.comments, action.data.comment]
+          : [action.data.comment],
+      };
+      return state.map((blog) => (blog.id !== id ? blog : changedBlog));
+    }
     default:
       return state;
   }
@@ -68,6 +79,20 @@ export const removeBlog = (blogObject) =>
     return Promise.reject();
     }
   };
+
+
+export const addCommentToBlog = ({id, comment}) => async (dispatch) => {
+  try {
+    await blogService.comment(id, comment);
+    dispatch({
+      type: "COMMENT_BLOG",
+      data: {id, comment},
+    });
+    return Promise.resolve();
+  } catch (e) {
+    return Promise.reject();
+  }
+};
 
 export const initializeBlogs = () => 
   async (dispatch) => {
