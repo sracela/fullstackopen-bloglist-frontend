@@ -8,80 +8,60 @@ import { initializeBlogs } from "./reducers/blogReducer";
 import { initializeUsers } from "./reducers/userReducer";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "./components/Login";
-import { logout } from "./reducers/auth";
+import Nav from './components/Nav'
 import {
-  BrowserRouter as Router,
+  useRouteMatch,
   Switch,
   Route,
-  Link,
   Redirect,
 } from "react-router-dom";
 import Notification from "./components/Notification";
 
-
-const Home = () => (
+const Home = ({ greeting }) => (
   <div>
     <h2>Welcome !</h2>
-    <p>Please Log in to see posted Blogs</p>
+    <p>{greeting}</p>
   </div>
 );
 const App = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn, user: currentUser } = useSelector((state) => state.auth);
-  
-  const padding = {
-    padding: 5,
-  };
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const blogs = useSelector((state) => state.blogs);
+  const users = useSelector((state) => state.users);
+
+  const matchBlog = useRouteMatch("/blogs/:id");
+  const blog = matchBlog
+    ? blogs.find((blog) => blog.id === matchBlog.params.id.toString())
+    : null;
+  const matchUser = useRouteMatch("/users/:id");
+  const user = matchUser
+    ? users.find((user) => user.id === matchUser.params.id.toString())
+    : null;
 
   useEffect(() => {
     try {
-    dispatch(initializeBlogs());
-    dispatch(initializeUsers());
+      dispatch(initializeBlogs());
+      dispatch(initializeUsers());
     } catch (e) {
-      console.log("problem loading blogs")
+      console.log("problem loading blogs or users");
     }
   }, [dispatch]);
 
-  const onLogout = () => {
-    dispatch(logout());
-  }
-
-  // if (!isLoggedIn) {
-  //   return (
-  //     <>
-  //       <Notification />
-  //       <Login />
-  //     </>
-  //   );
-  // }
   return (
-    <Router>
-      <div style={{ position: "absolute", top: 0, right: 0, margin: "10px" }}>
-        <Link style={padding} to="/">
-          home
-        </Link>
-        <Link style={padding} to="/blogs">
-          blogs
-        </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
-        {isLoggedIn ? 
-          <div>
-            <em>{currentUser.name} logged in</em>
-            <button onClick={onLogout}>LOGOUT</button>
-          </div>
-        : 
-          <Link style={padding} to="/login">
-            login
-          </Link>
-        }
-      </div>
-      <div>
-        <h1>Blogs Application</h1>
-        <Notification />
-      </div>
+    <div>
+      <Nav />
+      <Notification />
       <Switch>
+        <Route
+          path="/users/:id"
+          render={() => (isLoggedIn ? <User user={user}/> : <Redirect to="/login" />)}
+        />
+        <Route
+          path="/blogs/:id"
+          render={() =>
+            isLoggedIn ? <Blog blog={blog} /> : <Redirect to="/login" />
+          }
+        />
         <Route
           path="/users"
           render={() => (isLoggedIn ? <Users /> : <Redirect to="/login" />)}
@@ -99,32 +79,20 @@ const App = () => {
             )
           }
         />
-        <Route
-          path="/users/:id"
-          render={() => (isLoggedIn ? <User /> : <Redirect to="/login" />)}
-        />
-        <Route
-          path="/blogs/:id"
-          render={() => (isLoggedIn ? <Blog /> : <Redirect to="/login" />)}
-        />
-        {/* <Route path="/blogs/:id">
-          <Blog />
-        </Route>
-        <Route path="/users/:id">
-          <User />
-        </Route> */}
-        {/* <Route path="/blogs"></Route> */}
-        {/* <Route path="/users">
-          <Users />
-        </Route> */}
         <Route path="/login">
           <Login />
         </Route>
         <Route path="/">
-          <Home />
+          <Home
+            greeting={
+              !isLoggedIn
+                ? "Please Log in to see posted Blogs"
+                : "Click on blogs in the navigation bar to see available blogs"
+            }
+          />
         </Route>
       </Switch>
-    </Router>
+    </div>
   );
 };
 

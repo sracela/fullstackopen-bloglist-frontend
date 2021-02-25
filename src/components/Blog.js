@@ -1,15 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { likeBlog, removeBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
-
-const Blog = () => {
+import Comments from "./Comments";
+const Blog = ({blog}) => {
   const dispatch = useDispatch();
-  const blogs = useSelector((state) => state.blogs);
-  const id = useParams().id;
-  const blog = blogs.find((n) => n.id === id.toString());
-
   if (!blog) {
     return <div>no data</div>;
   }
@@ -36,18 +31,13 @@ const Blog = () => {
   return (
     <div
       key={blog.id}
-        style={{
-        
-        boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-        padding: "10px",
+      style={{
         borderRadius: "8px",
-        width: "300px",
-        height: "325px",
+        width: "50%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        margin: "auto",
-        textAlign: "center"
+        margin: "50px 20px",
       }}
     >
       <h3>{blog.title}</h3>
@@ -60,11 +50,13 @@ const Blog = () => {
         <p>
           <strong>likes:</strong> {blog.likes}
         </p>
-        <div>
+        <div style={{display: 'flex'}}>
           <button onClick={handleLike(blog)}>like</button>
+          <div style={{width: '10px'}}></div>
           <button onClick={handleRemove(blog)}>remove</button>
         </div>
         <br />
+        <Comments blogId={blog.id} comments={blog.comments} />
       </div>
     </div>
   );
