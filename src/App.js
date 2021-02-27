@@ -16,6 +16,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import Notification from "./components/Notification";
+import { Pane } from "evergreen-ui";
 
 const Home = ({ greeting }) => (
   <div>
@@ -48,51 +49,63 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <Pane display="flex" width="100%" height="100%">
       <Nav />
-      <Notification />
-      <Switch>
-        <Route
-          path="/users/:id"
-          render={() => (isLoggedIn ? <User user={user}/> : <Redirect to="/login" />)}
-        />
-        <Route
-          path="/blogs/:id"
-          render={() =>
-            isLoggedIn ? <Blog blog={blog} /> : <Redirect to="/login" />
-          }
-        />
-        <Route
-          path="/users"
-          render={() => (isLoggedIn ? <Users /> : <Redirect to="/login" />)}
-        />
-        <Route
-          path="/blogs"
-          render={() =>
-            isLoggedIn ? (
-              <>
-                <BlogForm />
-                <Blogs />
-              </>
-            ) : (
-              <Redirect to="/login" />
-            )
-          }
-        />
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/">
-          <Home
-            greeting={
-              !isLoggedIn
-                ? "Please Log in to see posted Blogs"
-                : "Click on blogs in the navigation bar to see available blogs"
+      <Pane
+        display="flex"
+        flexDirection="column"
+        background="#f5f5f5"
+        width="100%"
+        height="100%"
+        paddingX={48}
+        paddingY={32}
+      >
+        <Notification />
+        <Switch>
+          <Route
+            path="/users/:id"
+            render={() =>
+              isLoggedIn ? <User user={user} /> : <Redirect to="/login" />
             }
           />
-        </Route>
-      </Switch>
-    </div>
+          <Route
+            path="/blogs/:id"
+            render={() =>
+              isLoggedIn ? <Blog blog={blog} /> : <Redirect to="/login" />
+            }
+          />
+          <Route
+            path="/users"
+            render={() => (isLoggedIn ? <Users /> : <Redirect to="/login" />)}
+          />
+          <Route
+            path="/blogs"
+            render={() =>
+              isLoggedIn ? (
+                <>
+                  <BlogForm />
+                  <Blogs />{" "}
+                </>
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/">
+            <Home
+              greeting={
+                !isLoggedIn
+                  ? "Please Log in to see posted Blogs"
+                  : "Click on blogs in the navigation bar to see available blogs"
+              }
+            />
+          </Route>
+        </Switch>
+      </Pane>
+    </Pane>
   );
 };
 
