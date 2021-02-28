@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import BlogForm from "./components/BlogForm";
 import Blogs from "./components/Blogs";
 import Users from "./components/Users";
 import Blog from "./components/Blog";
@@ -78,10 +77,7 @@ const App = () => {
             path="/blogs"
             render={() =>
               isLoggedIn ? (
-                <>
-                  <BlogForm />
-                  <Blogs />{" "}
-                </>
+                  <Blogs />
               ) : (
                 <Redirect to="/login" />
               )

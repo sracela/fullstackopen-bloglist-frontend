@@ -2,8 +2,17 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Togglable from "./Togglable";
+import BlogForm from "./BlogForm";
+import {
+    Heading,
+    Pane,
+    Avatar,
+    Text,
+    Badge,
+} from "evergreen-ui";
 
-const BlogItem = ({ blog }) => {
+const BlogItem = ({ blog }) => 
+{
   return (
     <li
       key={blog.id}
@@ -42,8 +51,9 @@ const Blogs = () => {
   const blogs = useSelector((state) => state.blogs)
 
   return (
-    <div style={{ maxWidth: "100%", padding: "5px", textAlign: "center" }}>
-      <h2 style={{ letterSpacing: "2px" }}>BLOGS</h2>
+    <div style={{ maxWidth: "100%", padding: "5px" }}>
+        <Heading size={700}>All Blogs</Heading>
+        <BlogForm />
       <ul
         style={{
           display: "grid",

@@ -32,7 +32,7 @@ const Nav = () => {
         paddingX={32}
         paddingY={32}
       >
-        <Heading size={800} is="h1" cursor="pointer" padding={0}>
+        <Heading size={700} is="h1" cursor="pointer" padding={0}>
           Blog Application
         </Heading>
         <Pane height={200}>

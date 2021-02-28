@@ -15,7 +15,7 @@ const UserWidget = ({ currentUser }) => {
         alignItems="center"
         justifyContent="center"
       >
-        <Avatar name="Sara Cela" size={96} />
+        <Avatar name="Sara Cela" size={120} />
         <Pane alignSelf="flex-start" marginLeft={16}>
           <Heading size={600} marginTop="default">
             {currentUser.name}
