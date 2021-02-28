@@ -2,14 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/auth";
-
+import UserWidget from "./UserWidget"
 import {
   Pane,
   Heading,
   HomeIcon,
   Menu,
   UserIcon,
-  ApplicationsIcon,LogOutIcon
+  ApplicationsIcon,
+  LogOutIcon,
+  LogInIcon,
 } from "evergreen-ui";
 
 const Nav = () => {
@@ -23,11 +25,9 @@ const Nav = () => {
   return (
     <nav>
       <Pane
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="start"
-        width="20vw"
+        display="grid"
+        gridTemplateRows="1fr 3fr 4fr 1fr"
+        width="25vw"
         height="100%"
         paddingX={32}
         paddingY={32}
@@ -35,29 +35,35 @@ const Nav = () => {
         <Heading size={800} is="h1" cursor="pointer" padding={0}>
           Blog App
         </Heading>
-        {/* <Link style={{ textDecoration: "none" }} to="/login">
-          <Menu.Item intent="danger">login</Menu.Item>
-          <em>{currentUser.name} logged in </em>
-        </Link> */}
+        <Pane height={200}>
+          {isLoggedIn && <UserWidget currentUser={currentUser} />}
+        </Pane>
         <Menu>
           <Menu.Group>
             <Link style={{ textDecoration: "none" }} to="/">
-              <Menu.Item icon={HomeIcon}>home</Menu.Item>
+              <Menu.Item icon={HomeIcon}>Home</Menu.Item>
             </Link>
             <Link style={{ textDecoration: "none" }} to="/blogs">
-              <Menu.Item icon={ApplicationsIcon}>blogs</Menu.Item>
+              <Menu.Item icon={ApplicationsIcon}>Blogs</Menu.Item>
             </Link>
             <Link style={{ textDecoration: "none" }} to="/users">
-              <Menu.Item icon={UserIcon}>users</Menu.Item>
+              <Menu.Item icon={UserIcon}>Users</Menu.Item>
             </Link>
           </Menu.Group>
-          <Menu.Divider />
-          {!isLoggedIn &&
-            <Menu.Group>
-              <Menu.Item icon={LogOutIcon}><button onClick={onLogout}>LOGOUT</button></Menu.Item>
-            </Menu.Group>
-          }
+          <Pane height={200}></Pane>
         </Menu>
+
+        <Menu.Group>
+          {isLoggedIn ? (
+            <Menu.Item onClick={onLogout} icon={LogOutIcon}>
+              LOG OUT
+            </Menu.Item>
+          ) : (
+            <Link style={{ textDecoration: "none" }} to="/login">
+              <Menu.Item icon={LogInIcon}>LOG IN</Menu.Item>
+            </Link>
+          )}
+        </Menu.Group>
       </Pane>
     </nav>
   );
