@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Alert } from "evergreen-ui";
 
 const Notification = () => {
   const notification = useSelector((state) => state.notification);
@@ -7,8 +8,9 @@ const Notification = () => {
     return null;
   }
   const style = {
-    position: 'sticky',
+    position: 'fixed',
     top: '10px',
+    right: '0%',
     padding: 10,
     zIndex: 1000,
     maxWidth: '50%'
@@ -16,7 +18,12 @@ const Notification = () => {
   // <div className="error" style={{ color: error ? 'red' : 'green' }}></div>
   return (
     <div style={style}>
-      <p className={notification.iserror ? "error" : "success"}>{notification.message}</p>
+ <Alert
+    appearance="card"
+    intent={notification.iserror ? "danger" : "success"} 
+    title={notification.message}
+    marginBottom={32}
+  />
     </div>
   );
 };
