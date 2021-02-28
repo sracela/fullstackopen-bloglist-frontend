@@ -33,7 +33,7 @@ const Nav = () => {
         paddingY={32}
       >
         <Heading size={800} is="h1" cursor="pointer" padding={0}>
-          Blog App
+          Blog Application
         </Heading>
         <Pane height={200}>
           {isLoggedIn && <UserWidget currentUser={currentUser} />}

@@ -6,12 +6,13 @@ import { login } from "../reducers/auth";
 import {
   useHistory,
 } from "react-router-dom";
+import { Card, Heading, Paragraph, Pane, Button, TextInputField, ArrowRightIcon } from "evergreen-ui";
 
 const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { reset: resetUsername, ...username } = useField("text");
-  const { reset: resetPassword, ...password } = useField("text");
+  const { reset: resetPassword, ...password } = useField("password");
 
   const handleReset = () => resetUsername(resetPassword());
 
@@ -28,22 +29,40 @@ const Login = () => {
   };  
 
   return (
-    <div style={{ maxWidth: "50%", padding: "5px" }}>
-      <h2>Login</h2>
+<Card
+        elevation={3}
+        margin="auto"
+        background="white"
+        textAlign="center"
+        width={500}
+  >
+    <Pane> <img src={"welcome.jpg"} 
+   width="100%"  alt="Welcome!"/></Pane>
+
+   <Pane padding={32}>
+    <Heading size={900}> Log-in!</Heading>
+    <Paragraph marginTop="default">You are a click aside of seeing a lot of hilarious blogs from our users</Paragraph>
+    </Pane>
+    <Pane  background="purpleTint" padding={32} width="100%" position="relative"
+        textAlign="left">
       <form onSubmit={handleLogin}>
-        username:
-        <input {...username} />
+        <TextInputField
+  label="Username"
+  placeholder="i.e. supersara"
+  {...username}
+/>
+        <TextInputField
+  label="Password"
+  placeholder="i.e. supersara"
+  {...password}
+/>
+        <Button type="submit" appearance="primary" height={40} iconAfter={ArrowRightIcon} position="absolute" right={"0%"} marginRight={32} marginBottom={32}>
+          LOG IN
+        </Button>
         <br />
         <br />
-        password:
-        <input {...password} />
-        <br />
-        <br />
-        <button type="submit">login</button>
-        <br />
-        <br />
-      </form>
-    </div>
+      </form></Pane>
+    </Card>
   );
 };
 

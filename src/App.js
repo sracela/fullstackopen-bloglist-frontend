@@ -17,13 +17,8 @@ import {
 } from "react-router-dom";
 import Notification from "./components/Notification";
 import { Pane } from "evergreen-ui";
+import Home from "./components/Home";
 
-const Home = ({ greeting }) => (
-  <div>
-    <h2>Welcome !</h2>
-    <p>{greeting}</p>
-  </div>
-);
 const App = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -54,7 +49,8 @@ const App = () => {
       <Pane
         display="flex"
         flexDirection="column"
-        background="#f5f5f5"
+        // background="#f5f5f5"
+        background="purpleTint"
         width="100%"
         height="100%"
         paddingX={48}
