@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { likeBlog, removeBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import Comments from "./Comments";
-const Blog = ({blog}) => {
+const Blog = ({ blog }) => {
   const dispatch = useDispatch();
   if (!blog) {
     return <div>no data</div>;
@@ -50,12 +50,19 @@ const Blog = ({blog}) => {
         <p>
           <strong>likes:</strong> {blog.likes}
         </p>
-        <div style={{display: 'flex'}}>
+        <div style={{ display: "flex" }}>
           <button onClick={handleLike(blog)}>like</button>
-          <div style={{width: '10px'}}></div>
+          <div style={{ width: "10px" }}></div>
           <button onClick={handleRemove(blog)}>remove</button>
         </div>
         <br />
+        {/* <Togglable buttonLabel="show" id={`blog_${blog.id}`}>
+          <Pane>
+            <Paragraph color="muted" marginTop={8}>
+              url: {blog.url}
+            </Paragraph>
+          </Pane>
+        </Togglable> */}
         <Comments blogId={blog.id} comments={blog.comments} />
       </div>
     </div>

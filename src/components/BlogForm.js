@@ -1,19 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBlog } from "../reducers/blogReducer";
-import { toggleVisibility } from "../reducers/togglableReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import { useField } from "../hooks";
-import Togglable from "./Togglable";
+import { Pane, Button, Dialog, TextInputField } from "evergreen-ui";
 
 const BlogForm = () => {
-  const id = "blogForm";
   const dispatch = useDispatch();
 
   const { user: currentUser } = useSelector((state) => state.auth);
-  const visible = useSelector((state) =>
-    state.togglables.find((a) => a.id === id)
-  )?.visibility;
+  const [isShown, setIsShown] = useState(false);
 
   const { reset: resetTitle, ...title } = useField("text");
   const { reset: resetAuthor, ...author } = useField("text");
@@ -21,10 +17,10 @@ const BlogForm = () => {
 
   const handleReset = () => resetTitle(resetAuthor(resetURL()));
 
-  useEffect(handleReset, [visible])
+  useEffect(handleReset, [isShown]);
 
   const addBlog = async (event) => {
-    event.preventDefault();
+    console.log("🚀 ~ file: BlogForm.js ~ line 23 ~ addBlog ~ event", event);
     const newBlog = {
       title: title.value,
       author: author.value,
@@ -32,42 +28,61 @@ const BlogForm = () => {
       user: currentUser,
     };
     try {
-    dispatch(createBlog(newBlog));
-    dispatch(() => dispatch(toggleVisibility(id)));
-    dispatch(setNotification(`New blog "${newBlog.title}" created`, false, 3));
-    handleReset();
-
+      await dispatch(createBlog(newBlog));
+      dispatch(
+        setNotification(`New blog "${newBlog.title}" created`, false, 3)
+      );
+      handleReset();
+      setIsShown(false);
     } catch (e) {
-    dispatch(setNotification(`Error creating new blog`, true, 3));
-    handleReset();
-      
+      dispatch(setNotification(`Error creating new blog`, true, 3));
+      handleReset();
+      setIsShown(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: "50%", padding: "5px" }}>
-      <h2>Create a new blog</h2>
-      <Togglable buttonLabel="new blog" id={id}>
-        <form onSubmit={addBlog}>
-          title:
-          <input {...title} />
+    <Pane>
+      <Dialog
+        isShown={isShown}
+        title="New Blog"
+        onCloseComplete={addBlog}
+        confirmLabel="ADD BLOG"
+      >
+        <form>
+          <TextInputField
+            label="Title"
+            placeholder="The best blog ever"
+            {...title}
+          />
           <br />
           <br />
-          author:
-          <input {...author} />
+          <TextInputField
+            label="Author"
+            placeholder="The best writer ever"
+            {...author}
+          />
           <br />
           <br />
-          url:
-          <input {...url} />
-          <br />
-          <br />
-          <button type="submit">add</button>
+          <TextInputField label="URL" placeholder="fantasti.co" {...url} />
           <br />
           <br />
         </form>
-      </Togglable>
-    </div>
+      </Dialog>
+      <Pane width="100%" padding={32} position="relative">
+        <Button
+          position="absolute"
+          right={"0%"}
+          bottom={16}
+          intent="warning"
+          appearance="primary"
+          onClick={() => setIsShown(true)}
+        >
+          CREATE NEW BLOG
+        </Button>
+      </Pane>
+    </Pane>
   );
-}
+};
 
-export default BlogForm
+export default BlogForm;
