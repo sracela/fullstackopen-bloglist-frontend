@@ -13,10 +13,14 @@ import {
   Small,
   Strong,
 } from "evergreen-ui";
+import {
+  useHistory,
+} from "react-router-dom";
 
 const BlogItem = ({ blog }) => {
+  const history = useHistory();
   return (
-    <Link style={{ textDecoration: "none" }} to={`/blogs/${blog.id}`}>
+    // <Link style={{ textDecoration: "none" }} to={`/blogs/${blog.id}`}>
       <Card
         key={blog.id}
         // boxShadow="rgba(149, 157, 165, 0.2) 0px 8px 24px"
@@ -31,6 +35,8 @@ const BlogItem = ({ blog }) => {
         flexDirection="column"
         justifyContent="space-between"
         position="relative"
+        cursor="pointer"
+        onClick={() => history.push(`/blogs/${blog.id}`)}
       >
         <Pane
           height={102}
@@ -83,7 +89,7 @@ const BlogItem = ({ blog }) => {
           <Strong>{blog.likes} likes</Strong>
         </Text>
       </Card>
-    </Link>
+    // </Link>
   );
 };
 
@@ -109,7 +115,7 @@ const Blogs = () => {
           </Paragraph>
         </Pane>
       </Pane>
-      <Pane backgroundColor="#E4E7EB" height="0.25px" border={0} />
+      <Pane backgroundColor="#E4E7EB" height="0.25px" />
       <Pane marginY={32} width="100%">
         <BlogForm />
       </Pane>
