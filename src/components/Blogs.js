@@ -17,7 +17,7 @@ import {
   useHistory,
 } from "react-router-dom";
 
-const BlogItem = ({ blog }) => {
+export const BlogItem = ({ blog }) => {
   const history = useHistory();
   return (
     // <Link style={{ textDecoration: "none" }} to={`/blogs/${blog.id}`}>

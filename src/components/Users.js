@@ -63,6 +63,9 @@ const Users = () => {
         <Pane display="flex" justifyContent="space-between" alignItems="center">
           <Pane>
             <Heading size={700}>All Users</Heading>
+            <Heading size={100} marginTop="default">
+              Click on User's Row in order to see it in more detail
+            </Heading>
           </Pane>
           <Pane marginTop="20px">
             <Paragraph>{users.length} Total Users</Paragraph>
@@ -70,7 +73,7 @@ const Users = () => {
         </Pane>
         <Pane>
           <Table marginY={32} background="white" elevation={3}>
-            <Table.Head>
+            <Table.Head paddingY={32}>
               <Table.SearchHeaderCell
                 onChange={(value) => setSearchQuery(value)}
                 value={searchQuery}
@@ -90,7 +93,7 @@ const Users = () => {
                         ]}
                         selected={ordering}
                         onChange={(value) => {
-                          setOrdering(value)
+                          setOrdering(value);
                           // Close the popover when you select a value.
                           close();
                         }}
@@ -98,9 +101,7 @@ const Users = () => {
                     </Menu>
                   )}
                 >
-                  <TextDropdownButton
-                    icon={getIconForOrder(ordering)}
-                  >
+                  <TextDropdownButton icon={getIconForOrder(ordering)}>
                     Added blogs
                   </TextDropdownButton>
                 </Popover>
