@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { addTogglable, toggleVisibility } from "../reducers/togglableReducer";
+import { Pane, Button, CrossIcon } from "evergreen-ui";
 
 const Togglable = (props) => {
   const dispatch = useDispatch();
@@ -12,33 +13,40 @@ const Togglable = (props) => {
   const showWhenVisible = { display: visible ? "" : "none" };
 
   useEffect(() => {
-  const onAddTogglable = () => dispatch(addTogglable(props.id));
-    onAddTogglable()
+    const onAddTogglable = () => dispatch(addTogglable(props.id));
+    onAddTogglable();
   }, [dispatch, props.id]);
-  
+
   return (
-    <div style={{ position: "relative", width: '100%'}}>
-      <div style={hideWhenVisible}>
-        <button onClick={() => dispatch(toggleVisibility(props.id))}>
+    <Pane position="relative" width="100%">
+      <Pane style={hideWhenVisible}>
+        <Button margin={8} onClick={() => dispatch(toggleVisibility(props.id))}>
           {props.buttonLabel}
-        </button>
-      </div>
-      <div style={showWhenVisible} className="togglableContent">
-        {props.children}
-        <button
+        </Button>
+      </Pane>
+      <Pane style={showWhenVisible} className="togglableContent">
+        <Pane position="absolute" top="30%" width="80%">
+          {props.children}
+        </Pane>
+        <Button
+          position="absolute"
+          top="0%"
+          right="0%"
+          margin={8}
           onClick={() => dispatch(toggleVisibility(props.id))}
+          iconAfter={<CrossIcon />}
         >
-          close
-        </button>
-      </div>
-    </div>
+          CLOSE
+        </Button>
+      </Pane>
+    </Pane>
   );
-}
+};
 
 Togglable.propTypes = {
-  buttonLabel: PropTypes.string.isRequired
-}
+  buttonLabel: PropTypes.string.isRequired,
+};
 
-Togglable.displayName = 'Togglable'
+Togglable.displayName = "Togglable";
 
-export default Togglable
+export default Togglable;

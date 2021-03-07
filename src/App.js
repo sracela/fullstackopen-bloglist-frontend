@@ -7,13 +7,8 @@ import { initializeBlogs } from "./reducers/blogReducer";
 import { initializeUsers } from "./reducers/userReducer";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "./components/Login";
-import Nav from './components/Nav'
-import {
-  useRouteMatch,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import Nav from "./components/Nav";
+import { useRouteMatch, Switch, Route, Redirect } from "react-router-dom";
 import Notification from "./components/Notification";
 import { Pane } from "evergreen-ui";
 import Home from "./components/Home";
@@ -75,13 +70,7 @@ const App = () => {
           />
           <Route
             path="/blogs"
-            render={() =>
-              isLoggedIn ? (
-                  <Blogs />
-              ) : (
-                <Redirect to="/login" />
-              )
-            }
+            render={() => (isLoggedIn ? <Blogs /> : <Redirect to="/login" />)}
           />
           <Route path="/login">
             <Login />
@@ -102,3 +91,11 @@ const App = () => {
 };
 
 export default App;
+
+/* 
+TODO: Dialog del blogs
+TODO: Back buttons
+TODO: Sesion
+TODO: Comments togglable
+TODO: Scroll blogs, comments
+**/

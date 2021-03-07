@@ -1,8 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { BlogItem } from "./Blogs"
-import { Link } from "react-router-dom";
+import { BlogItem } from "./Blogs";
 import {
   Card,
   Heading,
@@ -20,7 +19,7 @@ const User = () => {
   const blogs = useSelector((state) => state.blogs);
   const id = useParams().id;
   const user = users.find((n) => n.id === id.toString());
-  console.log("🚀 ~ file: User.js ~ line 21 ~ User ~ user", user)
+  console.log("🚀 ~ file: User.js ~ line 21 ~ User ~ user", user);
   if (!user) {
     return (
       <Card
@@ -32,22 +31,23 @@ const User = () => {
         display="grid"
         placeItems="center"
       >
-        <Heading size={100} textAlign="center">no data</Heading>
+        <Heading size={100} textAlign="center">
+          no data
+        </Heading>
       </Card>
     );
   }
 
   const totalLikes = user.blogs.reduce((prev, curr) => {
-    const blog = blogs.find(blog => blog.id === curr.id)
+    const blog = blogs.find((blog) => blog.id === curr.id);
     return prev + blog.likes;
   }, 0);
-
 
   const totalComments = user.blogs.reduce((prev, curr) => {
     const blog = blogs.find((blog) => blog.id === curr.id);
     return prev + blog.comments.length;
   }, 0);
-  
+
   return (
     <Pane padding={8} display="flex" flexDirection="column">
       <Card
@@ -111,7 +111,9 @@ const User = () => {
         </Pane>
       </Card>
 
-      <Heading marginY={32} size={700}>Added blogs</Heading>
+      <Heading marginY={32} size={700}>
+        Added blogs
+      </Heading>
       <Pane
         display="grid"
         gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))"
