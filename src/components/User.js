@@ -49,14 +49,18 @@ const User = () => {
   }, 0);
 
   return (
-    <Pane padding={8} display="flex" flexDirection="column">
+    <Pane padding={8} display="flex" flexDirection="column" 
+      height="100%"
+      maxWidth="1000px"
+      overflowY="hidden"
+      overflowX="hidden">
       <Card
         elevation={3}
         marginX="auto"
         background="white"
         textAlign="center"
         width={500}
-        height={320}
+        height={380}
         padding={32}
         display="flex"
         flexDirection="column"
@@ -114,13 +118,16 @@ const User = () => {
       <Heading marginY={32} size={700}>
         Added blogs
       </Heading>
-      <Pane
+            <Pane
         display="grid"
-        gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))"
-        columnGap={8}
-        rowGap={32}
+        height="400px"
+        gridTemplateColumns={`repeat(${blogs.length}, 30%)`}
+        gridTemplateRows="repeat(1, 10%)"
+        gridAutoColumns="15%"
+        gridAutoFlow="column"
         listStyle="none"
         alignItems="start"
+        overflowX="auto"
       >
         {blogs
           .sort((a, b) => b.likes - a.likes)
@@ -129,17 +136,6 @@ const User = () => {
           ))}
       </Pane>
     </Pane>
-    // <div>
-    //   <h2>{user?.name}</h2>
-    //   <h3>added blogs</h3>
-    //   <ul>
-    //     {user?.blogs
-    //       .sort((a, b) => b.likes - a.likes)
-    //       .map((blog) => (
-    //         <Link to={`/blogs/${blog.id}`}><li key={blog.id}>{blog.title}</li></Link>
-    //       ))}
-    //   </ul>
-    // </div>
   );
 };
 

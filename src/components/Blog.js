@@ -61,7 +61,6 @@ const Blog = ({ blog }) => {
       padding={8}
       display="flex"
       flexDirection="column"
-      width="100%"
       id={blog.id}
     >
       <Card

@@ -96,6 +96,5 @@ export default App;
 TODO: Dialog del blogs
 TODO: Back buttons
 TODO: Sesion
-TODO: Comments togglable
-TODO: Scroll blogs, comments
+TODO: fix comments scroll
 **/

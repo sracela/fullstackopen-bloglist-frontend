@@ -11,13 +11,7 @@ import {
   TextInputField,
   ArrowRightIcon,
   Button,
-  Strong,
-  Avatar,
   Paragraph,
-  TrashIcon,
-  Badge,
-  Pill,
-  ThumbsUpIcon,
 } from "evergreen-ui";
 
 const Comments = ({ blogId, comments }) => {
@@ -61,7 +55,16 @@ const Comments = ({ blogId, comments }) => {
       </form>
 
       <Togglable buttonLabel="Show comments" id={"comments"}>
-        <Pane width="100%" marginTop={48} display="flex">
+        <Pane width="100%" marginTop={8} 
+        display="grid"
+        height="100%"
+        gridTemplateColumns={`repeat(${comments.length}, 30%)`}
+        gridTemplateRows="repeat(1, 10%)"
+        gridAutoColumns="15%"
+        gridAutoFlow="column"
+        listStyle="none"
+        alignItems="start"
+        overflowX="auto">
           {comments.length !== 0 ? (
             comments.map((comment, index) => (
               <Card

@@ -13,82 +13,81 @@ import {
   Small,
   Strong,
 } from "evergreen-ui";
-import {
-  useHistory,
-} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export const BlogItem = ({ blog }) => {
   const history = useHistory();
   return (
     // <Link style={{ textDecoration: "none" }} to={`/blogs/${blog.id}`}>
-      <Card
-        key={blog.id}
-        // boxShadow="rgba(149, 157, 165, 0.2) 0px 8px 24px"
-        background="white"
-        elevation={3}
-        hoverElevation={4}
-        activeElevation={4}
-        padding={24}
-        width={274}
-        minHeight={230}
+    <Card
+      key={blog.id}
+      // boxShadow="rgba(149, 157, 165, 0.2) 0px 8px 24px"
+      gridArea= "span 1 / span 1"
+      background="white"
+      elevation={3}
+      hoverElevation={4}
+      activeElevation={4}
+      padding={24}
+      width={274}
+      minHeight={230}
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      position="relative"
+      cursor="pointer"
+      onClick={() => history.push(`/blogs/${blog.id}`)}
+    >
+      <Pane
+        height={102}
         display="flex"
         flexDirection="column"
         justifyContent="space-between"
-        position="relative"
-        cursor="pointer"
-        onClick={() => history.push(`/blogs/${blog.id}`)}
       >
-        <Pane
-          height={102}
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-        >
-          <Heading is="h4" size={600}>
-            {blog.title}
-          </Heading>
-          <Paragraph color="muted" marginTop={8}>
-            Created by: {blog.author}
-          </Paragraph>
-        </Pane>
-        <Pane
-          height={18}
-          display="flex"
-          justifyContent="flex-start"
-          alignItems="center"
-        >
-          {blog.user && (
-            <>
-              <Link
-                style={{ textDecoration: "none" }}
-                to={`/users/${blog.user.id}`}
-              >
-                <Avatar name={blog.user.username} size={30} />
-              </Link>
-              <Link
-                style={{ textDecoration: "none" }}
-                to={`/users/${blog.user.id}`}
-              >
-                <Text color="info" marginLeft={8}>
-                  <Small textTransform="uppercase">{blog.user.username}</Small>
-                </Text>
-              </Link>
-            </>
-          )}
-        </Pane>
+        <Heading is="h4" size={600}>
+          {blog.title}
+        </Heading>
+        <Paragraph color="muted" marginTop={8}>
+          Created by: {blog.author}
+        </Paragraph>
+      </Pane>
+      <Pane
+        height={18}
+        display="flex"
+        justifyContent="flex-start"
+        alignItems="center"
+      >
+        {blog.user && (
+          <>
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/users/${blog.user.id}`}
+            >
+              <Avatar name={blog.user.username} size={30} />
+            </Link>
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/users/${blog.user.id}`}
+            >
+              <Text color="info" marginLeft={8}>
+                <Small textTransform="uppercase">{blog.user.username}</Small>
+              </Text>
+            </Link>
+          </>
+        )}
+      </Pane>
 
-        <Text
-          color="dark"
-          marginLeft={8}
-          alignSelf="end"
-          position="absolute"
-          right={"0%"}
-          bottom={"0%"}
-          padding={24}
-        >
-          <Strong>{blog.likes} likes</Strong>
-        </Text>
-      </Card>
+      <Text
+        color="dark"
+        marginLeft={8}
+        alignSelf="end"
+        position="absolute"
+        right={"0%"}
+        bottom={"0%"}
+        padding={24}
+      >
+        <Strong>{blog.likes} likes</Strong>
+      </Text>
+    </Card>
     // </Link>
   );
 };
@@ -98,7 +97,15 @@ const Blogs = () => {
   const users = useSelector((state) => state.users);
 
   return (
-    <Pane padding={8} display="flex" flexDirection="column">
+    <Pane
+      padding={8}
+      display="flex"
+      flexDirection="column"
+      height="100%"
+      maxWidth="1000px"
+      overflowY="hidden"
+      overflowX="hidden"
+    >
       <Pane display="flex" justifyContent="space-between" alignItems="center">
         <Pane>
           <Heading size={700}>All Blogs</Heading>
@@ -121,11 +128,14 @@ const Blogs = () => {
       </Pane>
       <Pane
         display="grid"
-        gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))"
-        columnGap={8}
-        rowGap={32}
+        height="100%"
+        gridTemplateColumns={`repeat(${blogs.length}, 30%)`}
+        gridTemplateRows="repeat(2, 50%)"
+        gridAutoColumns="15%"
+        gridAutoFlow="column"
         listStyle="none"
         alignItems="start"
+        overflowX="auto"
       >
         {blogs
           .sort((a, b) => b.likes - a.likes)

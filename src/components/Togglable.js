@@ -25,14 +25,14 @@ const Togglable = (props) => {
         </Button>
       </Pane>
       <Pane style={showWhenVisible} className="togglableContent">
-        <Pane position="absolute" top="30%" width="80%">
+        <Pane position="absolute" width="100%" 
+          margin={8}>
           {props.children}
         </Pane>
         <Button
           position="absolute"
-          top="0%"
-          right="0%"
-          margin={8}
+          top="10%"
+          left="0%"
           onClick={() => dispatch(toggleVisibility(props.id))}
           iconAfter={<CrossIcon />}
         >
